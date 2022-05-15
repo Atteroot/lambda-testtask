@@ -10,11 +10,18 @@
       :id="'myModal' + currentTask.id"
       ref="myModal"
     >
-      <p class="my-4">Are you sure that you want to delete "{{currentTask.task}}" task?</p>
+      <p class="my-4">Are you sure that you want to delete "{{ currentTask.value }}" task?</p>
 
       <template #modal-footer>
-        <b-button variant="danger" @click="deleteTask">Yes</b-button>
-        <b-button @click="hideModal">Later</b-button>
+        <b-button
+          variant="danger"
+          @click="deleteTask"
+        >
+          Yes
+        </b-button>
+        <b-button @click="hideModal">
+          Later
+        </b-button>
       </template>
     </b-modal>
   </div>
@@ -31,12 +38,12 @@ export default {
 
   methods: {
     hideModal() {
-      this.$refs['myModal'].hide();
+      this.$refs.myModal.hide()
     },
 
     deleteTask() {
-      this.$emit('delete');
-    }
+      this.$emit('delete', this.currentTask);
+    },
   },
 }
 </script>

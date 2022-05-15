@@ -1,7 +1,13 @@
 <template>
   <div class="app">
-    <todo-header @create="createNewTask" />
-    <task-list :task="newTask" />
+    <todo-header @create="createTask" />
+    <task-list
+      :tasks="tasks"
+      :last-action="lastAction"
+      @create-task="createTask"
+      @update-task="updateTask"
+      @delete-task="deleteTask"
+    />
   </div>
 </template>
 
@@ -11,21 +17,53 @@ import TaskList from './components/TaskList.vue';
 
 export default {
   components: {
-    TodoHeader, TaskList
+    TodoHeader,
+    TaskList,
   },
 
   data() {
     return {
-      newTask: {},
-    };
+      tasks: [],
+      lastAction: '',
+    }
   },
 
   methods: {
-    //Take new task from TodoHeader
-    createNewTask(task) {
-      this.newTask = task;
+    createTask(task, redo = false) {
+      this.lastAction = !redo ? 'create' : ''
+      this.tasks.unshift(task)
+      this.saveTasks()
+    },
+
+    updateTask(data) {
+      const taskId = this.tasks.findIndex(task => task.id === data.task)
+      this.tasks[taskId].value = data.value
+      this.saveTasks()
+    },
+
+    deleteTask(task, redo = false) {
+      this.lastAction = !redo ? 'delete' : ''
+      this.tasks = this.tasks.filter(el => el.id !== task.id)
+      this.saveTasks()
+    },
+
+    //Save all tasks into local storage
+    saveTasks() {
+      const parsed = JSON.stringify(this.tasks)
+      localStorage.setItem('tasks', parsed)
+    },
+  },
+
+  mounted() {
+    //Checking local store for existing tasks
+    if (localStorage.getItem('tasks')) {
+      try {
+        this.tasks = JSON.parse(localStorage.getItem('tasks'))
+      } catch (error) {
+        localStorage.removeItem('tasks');
+      }
     }
-  }
+  },
 }
 </script>
 

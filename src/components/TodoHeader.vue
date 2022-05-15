@@ -6,8 +6,8 @@
 
     <div class="header__inputs inputs">
       <input
-        type="text"
         v-model="task"
+        type="text"
         class="inputs__input"
       >
       <button
@@ -31,16 +31,17 @@ export default {
   methods: {
     //Create new task
     createTask() {
-      if (this.task) {
-        this.$emit('create', {
-          id: Date.now(),
-          task: this.task,
-        });
-        
-        this.task = '';
+      if (!this.task) {
+        return
       }
-    }
-  }
+
+      this.$emit('create', {
+        id: Date.now(),
+        value: this.task,
+      })
+      this.task = ''
+    },
+  },
 }
 </script>
 
