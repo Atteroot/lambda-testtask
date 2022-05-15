@@ -1,5 +1,5 @@
 <template>
-  <header class="header" @submit.prevent>
+  <header class="header">
     <span class="header__text h1">
       TODO List
     </span>
