@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <TodoHeader @create="createNewTask"/>
-    <TaskList :task="newTask"/>
+    <todo-header @create="createNewTask" />
+    <task-list :task="newTask" />
   </div>
 </template>
 

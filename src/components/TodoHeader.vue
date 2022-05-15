@@ -25,30 +25,18 @@ export default {
   data() {
     return {
       task: '',
-      lastAction: {
-        action: '',
-        task: ''
-      },
-      newTask: {
-        id: 0,
-        task: ''
-      }
     }
   },
 
   methods: {
     //Create new task
     createTask() {
-      if (this.task.length > 0) {
-        this.newTask.id = Date.now();
-        this.newTask.task = this.task;
-        this.$emit('create', this.newTask);
-        this.lastAction.action = 'create';
-        this.lastAction.task = this.newTask;
-        this.newTask = {
-          id: 0,
-          task: ''
-        };
+      if (this.task) {
+        this.$emit('create', {
+          id: Date.now(),
+          task: this.task,
+        });
+        
         this.task = '';
       }
     }
